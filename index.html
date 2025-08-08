@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="عداد استغفار وتسبيح رقمي، بسيط وسريع يعمل على الجوال، يحفظ عدد المرات تلقائيًا.">
+  <title>عداد الاستغفار والتسبيح</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f3f4f6;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    #count {
+      font-size: 60px;
+      margin: 30px 0;
+      color: #10b981;
+    }
+    button {
+      font-size: 24px;
+      padding: 20px 40px;
+      margin: 10px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+    #incrementBtn {
+      background-color: #10b981;
+      color: white;
+    }
+    #resetBtn {
+      background-color: #ef4444;
+      color: white;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📿 عداد الاستغفار والتسبيح</h1>
+
+  <div id="count">0</div>
+
+  <button id="incrementBtn">استغفر الله</button>
+  <button id="resetBtn">إعادة التصفير</button>
+
+  <footer>
+    يحتفظ العداد تلقائيًا بعدد المرات حتى لو أغلقت الصفحة.
+  </footer>
+
+  <script>
+    const countElement = document.getElementById('count');
+    const incrementBtn = document.getElementById('incrementBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    let count = localStorage.getItem('tasbeehCount') || 0;
+    countElement.innerText = count;
+
+    incrementBtn.addEventListener('click', () => {
+      count++;
+      countElement.innerText = count;
+      localStorage.setItem('tasbeehCount', count);
+    });
+
+    resetBtn.addEventListener('click', () => {
+      if (confirm("هل أنت متأكد من إعادة التصفير؟")) {
+        count = 0;
+        countElement.innerText = count;
+        localStorage.setItem('tasbeehCount', count);
+      }
+    });
+  </script>
+
+</body>
+</html>
