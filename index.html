@@ -3,17 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="عداد استغفار وتسبيح رقمي، بسيط وسريع يعمل على الجوال، يحفظ عدد المرات تلقائيًا.">
-  <title>عداد الاستغفار والتسبيح</title>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-DF2BLMZHGD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-DF2BLMZHGD');
-</script>
+<meta name="description" content="عداد تسبيح واستغفار إلكتروني مجاني، يعمل على الجوال والكمبيوتر، يحفظ عدد الأذكار مثل سبحان الله، الحمد لله، لا إله إلا الله، الله أكبر، استغفر الله.">
+<title>📿 عداد الأذكار | عداد تسبيح واستغفار إلكتروني مجاني</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -25,25 +16,45 @@
       font-size: 28px;
       margin-bottom: 20px;
     }
-    #count {
-      font-size: 60px;
-      margin: 30px 0;
+    #azkar {
+      display: grid;
+      gap: 15px;
+      justify-items: center;
+      grid-template-columns: 1fr; /* الافتراضي للموبايل */
+    }
+    /* للشاشات الكبيرة - 3 في الصف */
+    @media (min-width: 768px) {
+      #azkar {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    .zikr-container {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 250px;
+    }
+    .count {
+      font-size: 40px;
+      margin: 10px 0;
       color: #10b981;
     }
     button {
-      font-size: 24px;
-      padding: 20px 40px;
-      margin: 10px;
+      font-size: 20px;
+      padding: 12px 20px;
+      margin: 5px;
       border: none;
-      border-radius: 12px;
+      border-radius: 8px;
       cursor: pointer;
       transition: 0.2s ease;
     }
-    #incrementBtn {
+    .incrementBtn {
       background-color: #10b981;
       color: white;
     }
-    #resetBtn {
+    .resetBtn {
       background-color: #ef4444;
       color: white;
     }
@@ -59,40 +70,64 @@
 </head>
 <body>
 
-  <h1>📿 عداد الاستغفار والتسبيح</h1>
+<h1>📿 عداد الأذكار الإلكتروني</h1>
 
-  <div id="count">0</div>
-
-  <button id="incrementBtn">استغفر الله</button>
-  <button id="resetBtn">إعادة التصفير</button>
+  <div id="azkar"></div>
+<p>
+<strong>عداد التسبيح</strong> و<strong>عداد الاستغفار</strong> لحفظ أذكارك اليومية بسهولة:
+<strong>سبحان الله</strong>، <strong>الحمد لله</strong>، <strong>لا إله إلا الله</strong>، <strong>الله أكبر</strong>، <strong>استغفر الله</strong>.
+</p>
 
   <footer>
-    يحتفظ العداد تلقائيًا بعدد المرات حتى لو أغلقت الصفحة.
+    يحتفظ كل عداد تلقائيًا بعدد المرات حتى لو أغلقت الصفحة.
   </footer>
 
   <script>
-    const countElement = document.getElementById('count');
-    const incrementBtn = document.getElementById('incrementBtn');
-    const resetBtn = document.getElementById('resetBtn');
+    const azkarList = [
+      "سبحان الله",
+      "الحمد لله",
+      "لا إله إلا الله",
+      "الله أكبر",
+      "استغفر الله",
+      "لا إله الا أنت سبحانك إني كنت من الظالمين"
+    ];
 
-    let count = localStorage.getItem('tasbeehCount') || 0;
-    countElement.innerText = count;
+    const azkarContainer = document.getElementById('azkar');
 
-    incrementBtn.addEventListener('click', () => {
-      count++;
-      countElement.innerText = count;
-      localStorage.setItem('tasbeehCount', count);
-    });
+    azkarList.forEach(zikr => {
+      const zikrKey = `count_${zikr}`;
+      let count = localStorage.getItem(zikrKey) || 0;
 
-    resetBtn.addEventListener('click', () => {
-      if (confirm("هل أنت متأكد من إعادة التصفير؟")) {
-        count = 0;
+      const div = document.createElement('div');
+      div.className = 'zikr-container';
+      div.innerHTML = `
+        <h2>${zikr}</h2>
+        <div class="count" id="count_${zikr}">${count}</div>
+        <button class="incrementBtn">+1</button>
+        <button class="resetBtn">تصفير</button>
+      `;
+
+      const countElement = div.querySelector(`#count_${CSS.escape(zikr)}`);
+      const incrementBtn = div.querySelector('.incrementBtn');
+      const resetBtn = div.querySelector('.resetBtn');
+
+      incrementBtn.addEventListener('click', () => {
+        count++;
         countElement.innerText = count;
-        localStorage.setItem('tasbeehCount', count);
-      }
+        localStorage.setItem(zikrKey, count);
+      });
+
+      resetBtn.addEventListener('click', () => {
+        if (confirm(`هل تريد تصفير "${zikr}"؟`)) {
+          count = 0;
+          countElement.innerText = count;
+          localStorage.setItem(zikrKey, count);
+        }
+      });
+
+      azkarContainer.appendChild(div);
     });
   </script>
 
 </body>
 </html>
-
